@@ -1,0 +1,55 @@
+### Connexion à MongoDB Atlas
+```sh
+mongosh "mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority"
+```
+
+### Création de la base de données et de la collection
+
+use contact;
+
+db.contactlist.insertMany([
+    { nom: "Ben", prenom: "Moris", email: "ben@gmail.com", age: 26 },
+    { nom: "Kefi", prenom: "Seif", email: "kefi@gmail.com", age: 15 },
+    { nom: "Emilie", prenom: "brouge", email: "emilie.b@gmail.com", age: 40 },
+    { nom: "Alex", prenom: "marron", age: 4 },
+    { nom: "Denzel", prenom: "Washington", age: 3 }
+]);
+
+
+### Lecture des données
+
+******LISTE DES CONTACTS******
+
+db.contactlist.find();
+
+******LISTE DE CONTECT D'UNE SEULE PERSONNE AVEC SON ID******
+
+db.contactlist.findOne({ _id: ObjectId("<ID>") });
+
+******LISTE DES CONTACTS AYANT AGE>18******
+
+db.contactlist.find({ age: { $gt: 18 } });
+
+******LISTE DES CONTACTS AYANT AGE>18 ET DONT LE NOM CONTIENT "ah"******
+
+db.contactlist.find({ age: { $gt: 18 }, nom: /ah/i });
+
+
+### Modification du prenom d'un contact
+
+db.contactlist.updateOne(
+    { nom: "Kefi", prenom: "Seif" },
+    { $set: { prenom: "Anis" } }
+);
+
+
+### Suppression des contacts ayant moins de 5 ans
+
+db.contactlist.deleteMany({ age: { $lt: 5 } });
+
+
+### Vérification des modifications
+
+db.contactlist.find();
+
+
